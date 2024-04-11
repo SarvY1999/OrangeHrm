@@ -10,31 +10,33 @@ const Emp = {
     lastName: "LastName"
 }
 
-Given('Launch the OrangeHRM application.', () => {
+Given('Launch the OrangeHRM application and Login to the application using valid credentials', () => {
     cy.login('Admin', 'admin123');
 });
 
-Then('Navigate to the "PIM" (Personnel Information Management) module.', () => {
+Then('Navigate to the "PIM" module', () => {
     navigate('PIM');
 });
 
-Then('Click on the "Add Employee" option.', () => {
+Then('Click on the "Add Employee" option', () => {
     cy.get("a.oxd-topbar-body-nav-tab-item").contains("Add Employee").click();
     cy.get("h6.orangehrm-main-title").should('have.text', "Add Employee");
 });
 
-Then('Fill in the required fields for adding a new employee.', () => {
+Then('Fill in the required fields for adding a new employee', () => {
     setText('input[name="firstName"]', Emp.firstName);
     setText('input[name="lastName"]', Emp.lastName);
 });
 
-And('Click on the "Save" button.', () => {
+And('Click on the "Save" button', () => {
     saveRecord();
 });
 
-
-Then('Verify that the employee has been successfully added.', () => {
+Then('Verify that the employee has been successfully added', () => {
     cy.get("a.oxd-topbar-body-nav-tab-item").contains("Employee List").click();
     cy.get("div.oxd-table-filter-header-title").should('have.text', "Employee Information");
     setText('div.oxd-autocomplete-text-input >  input', Emp.firstName);
+    cy.get('button[type="submit"]').click();
+    cy.wait(5000);
+    cy.get('div.oxd-table-cell.oxd-padding-cell > div').contains(Emp.firstName).should('be.visible');
 });
