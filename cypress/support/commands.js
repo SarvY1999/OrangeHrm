@@ -27,6 +27,7 @@
 /// <reference types = 'Cypress' /> ///
 Cypress.Commands.add('login', (username, password) => {
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+    cy.wait(5000);
     cy.get('input[name="username"]').should('be.visible');
     cy.get('input[name="username"]').type(username);
     cy.get('input[name="password"]').type(password);
