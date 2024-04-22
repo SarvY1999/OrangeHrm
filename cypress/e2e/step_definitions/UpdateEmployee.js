@@ -50,16 +50,25 @@ And('Click On Edit button', () => {
 })
 
 And('Update the Employee Details', () => {
-    cy.log('Update the Employee Details')
+    cy.log('Update the Employee Details');
+    Emp.firstName = `NewUpdateEmp${rand}`;
+    setText('input[name="firstName"]', Emp.firstName);
+    setText('input[name="lastName"]', Emp.lastName);
 })
 
 
 And('Save employee', () => {
     cy.log('Save employee')
-
+    saveRecord();
 })
 
 Then('Verify if Employee details are successfully updated', () => {
     cy.log('Verify if Employee details are successfully updated');
+    cy.get("a.oxd-topbar-body-nav-tab-item").contains("Employee List").click();
+    cy.get("div.oxd-table-filter-header-title").should('have.text', "Employee Information");
+    setText('div.oxd-autocomplete-text-input >  input', Emp.firstName);
+    cy.get('button[type="submit"]').click();
+    cy.wait(5000);
+    cy.get('div.oxd-table-cell.oxd-padding-cell > div').contains(Emp.firstName).should('be.visible');
 })
 
