@@ -1,6 +1,7 @@
 Feature: Update existing employee
 
   Scenario: As a user i want to update employee information
+    Given Prerequisites Create an Employee
     Given Login to OrangeHRM using Valid credentials
     When Navigate to PIM module
     And Search for existing employee

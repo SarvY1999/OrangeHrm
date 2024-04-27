@@ -10,7 +10,7 @@ const Emp = {
     lastName: "LastName"
 }
 
-before('Pre-requisite: Create Employee', () => {
+Given('Pre-requisite: Create Employee', () => {
     cy.login('Admin', 'admin123');
     navigate('PIM');
     cy.get("a.oxd-topbar-body-nav-tab-item").contains("Add Employee").click();
