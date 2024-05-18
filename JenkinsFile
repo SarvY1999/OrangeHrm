@@ -4,7 +4,6 @@ pipeline{
     stages{
         stage('Checkout'){
             step{
-            // Checkout to source code
             git 'https://github.com/SarvY1999/OrangeHrm.git'
             }
         }
