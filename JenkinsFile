@@ -25,9 +25,9 @@ pipeline{
         stage('Send Email'){
             steps{
                 emailext subject: 'Test Results',
-                         body: 'Cypress test results are attached.',
+                         body: 'Test results are attached.',
                          attachmentsPattern: 'reports/*.html',
-                         to: 'recipient@example.com'
+                         to: 'sarveshy193@gmail.com'
             }
         }
 
