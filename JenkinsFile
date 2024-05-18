@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('Checkout'){
+            step{
+            // Checkout to source code
+            git 'https://github.com/SarvY1999/OrangeHrm.git'
+            }
+        }
+        stage('Install Dependencies'){
+            step{
+                bat 'npm install'
+            }
+        }
+        stage('Run tests'){
+            step{
+                bat 'npx cpress run'
+            }
+        }
+        stage('Archive Report'){
+            step{
+             archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
+            }
+        }
+        stage('Send Email'){
+            step{
+                emailext subject: 'Test Results',
+                         body: 'Cypress test results are attached.',
+                         attachmentsPattern: 'reports/*.html',
+                         to: 'recipient@example.com'
+            }
+        }
+
+    }
+    post{
+        always{
+            cleanWs()
+        }
+    }
+}
