@@ -3,27 +3,27 @@ pipeline{
 
     stages{
         stage('Checkout'){
-            step{
+            steps{
             git 'https://github.com/SarvY1999/OrangeHrm.git'
             }
         }
         stage('Install Dependencies'){
-            step{
+            steps{
                 bat 'npm install'
             }
         }
         stage('Run tests'){
-            step{
+            steps{
                 bat 'npx cpress run'
             }
         }
         stage('Archive Report'){
-            step{
+            steps{
              archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
             }
         }
         stage('Send Email'){
-            step{
+            steps{
                 emailext subject: 'Test Results',
                          body: 'Cypress test results are attached.',
                          attachmentsPattern: 'reports/*.html',
