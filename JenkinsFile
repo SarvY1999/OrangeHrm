@@ -16,24 +16,20 @@ pipeline{
             steps{
                 bat 'npx cypress run'
             }
-        }
-        stage('Archive Report'){
-            steps{
-             archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
+            post{
+                always{
+                    archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
+                }
             }
         }
-        stage('Send Email'){
-            steps{
-                emailext subject: 'Test Results',
-                         body: 'Test results are attached.',
-                         attachmentsPattern: 'reports/*.html',
-                         to: 'sarveshy193@gmail.com'
-            }
-        }
-
     }
     post{
         always{
+                mailext subject: 'Test Results',
+                        body: 'Test results are attached.',
+                        attachmentsPattern: 'reports/*.html',
+                        to: 'sarveshy193@gmail.com'
+            
             cleanWs()
         }
     }
