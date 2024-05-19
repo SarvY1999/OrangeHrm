@@ -32,17 +32,17 @@ pipeline {
                         reportName: 'Cypress Test Report'
                     ])
                     
-                    // Zip the reports directory and ensure the zip file has the .zipped extension
-                    bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
-                    // Rename the file to .zipped to avoid Gmail blocking
-                    bat 'powershell Rename-Item -Path cypress\\reports\\html-reports.zip -NewName html-reports.zipped'
+                    // // Zip the reports directory and ensure the zip file has the .zipped extension
+                    // bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
+                    // // Rename the file to .zipped to avoid Gmail blocking
+                    // bat 'powershell Rename-Item -Path cypress\\reports\\html-reports.zip -NewName html-reports.zipped'
 
                     // Send the email with the zipped report
                     emailext(
                         subject: 'Test Results',
                         body: '''<p>Cypress test results are attached. Please find the HTML report attached.</p>''',
-                        attachmentsPattern: 'cypress/reports/html-reports.zipped',
-                        mimeType: 'application/zip',
+                        attachmentsPattern: 'cypress/reports/html/index.js',
+                        mimeType: 'text/html',
                         to: 'sarveshy193@gmail.com'
                     )
                 }
