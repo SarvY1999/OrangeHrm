@@ -16,24 +16,13 @@ pipeline{
             steps{
                 bat 'npx cypress run'
             }
-            post{
-                always{
-                    archiveArtifacts artifacts: 'cypress/reports/html/*.html', allowEmptyArchive: true
-                }
-            }
-        }
-        stage('Zip Reports') {
-            steps {
-                // Zip the reports directory
-                bat 'dir cypress/reports'
-            }
         }
     }
     post{
         always{
                 emailext subject: 'Test Results',
                         body: 'Test results are attached.',
-                        attachmentsPattern: 'cypress/reports/html/*.html',
+                        attachmentsPattern: 'cypress/reports/html/index.html',
                         mimeType: 'text/html',
                         to: 'sarveshy193@gmail.com'
             
