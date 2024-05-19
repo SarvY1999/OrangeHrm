@@ -22,6 +22,12 @@ pipeline{
                 }
             }
         }
+        stage('Debug Reports Directory') {
+            steps {
+                // List the contents of the reports directory for debugging purposes
+                bat 'dir reports'
+            }
+        }
     }
     post{
         always{
