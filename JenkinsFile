@@ -1,40 +1,99 @@
-pipeline{
+// pipeline{
+//     agent any
+
+//     stages{
+//         stage('Checkout'){
+//             steps{
+//             git 'https://github.com/SarvY1999/OrangeHrm.git'
+//             }
+//         }
+//         stage('Install Dependencies'){
+//             steps{
+//                 bat 'npm install'
+//             }
+//         }
+//         stage('Run tests'){
+//             steps{
+//                 bat 'npx cypress run'
+//             }
+//         }
+            
+//     }
+//     post{
+//         always{
+//         script {
+
+//                 // Zip the reports directory and ensure the zip file has the .zipped extension
+//                 bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
+//                 // Rename the file to .zipped to avoid Gmail blocking
+//                 bat 'powershell Rename-Item -Path cypress\\reports\\html-reports.zip -NewName html-reports.zipped'
+
+//             emailext subject: 'Test Results',
+//                       body: '''<p>Cypress test results are attached. Please find the HTML report attached.</p>''',
+//                       attachmentsPattern: 'cypress/reports/html-reports.zipped',
+//                       mimeType: 'application/zip',
+//                       to: 'sarveshy193@gmail.com'
+//         }
+//         cleanWs()        
+//         }
+//     }
+// }
+
+
+pipeline {
     agent any
 
-    stages{
-        stage('Checkout'){
-            steps{
-            git 'https://github.com/SarvY1999/OrangeHrm.git'
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/SarvY1999/OrangeHrm.git'
             }
         }
-        stage('Install Dependencies'){
-            steps{
+        stage('Install Dependencies') {
+            steps {
                 bat 'npm install'
             }
         }
-        stage('Run tests'){
-            steps{
+        stage('Run tests') {
+            steps {
                 bat 'npx cypress run'
             }
         }
-            
-    }
-    post{
-        always{
-        script {
-
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'cypress/reports/html',
+                    reportFiles: 'index.html',
+                    reportName: 'Cypress Test Report'
+                ])
+            }
+        }
+        stage('Zip Reports') {
+            steps {
                 // Zip the reports directory and ensure the zip file has the .zipped extension
                 bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
                 // Rename the file to .zipped to avoid Gmail blocking
                 bat 'powershell Rename-Item -Path cypress\\reports\\html-reports.zip -NewName html-reports.zipped'
-
-            emailext subject: 'Test Results',
-                      body: '''<p>Cypress test results are attached. Please find the HTML report attached.</p>''',
-                      attachmentsPattern: 'cypress/reports/html-reports.zipped',
-                      mimeType: 'application/zip',
-                      to: 'sarveshy193@gmail.com'
+            }
         }
-        cleanWs()        
+    }
+
+    post {
+        always {
+                script {
+                    emailext(
+                        subject: 'Test Results',
+                        body: '''<p>Cypress test results are attached. Please find the HTML report attached.</p>''',
+                        attachmentsPattern: 'cypress/reports/html-reports.zipped',
+                        mimeType: 'application/zip',
+                        to: 'sarveshy193@gmail.com'
+                    )
+                }
+            cleanWs()
         }
     }
 }
+
