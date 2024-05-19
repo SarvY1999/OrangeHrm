@@ -25,7 +25,7 @@ pipeline{
     }
     post{
         always{
-                mailext subject: 'Test Results',
+                emailext subject: 'Test Results',
                         body: 'Test results are attached.',
                         attachmentsPattern: 'reports/*.html',
                         to: 'sarveshy193@gmail.com'
