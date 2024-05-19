@@ -14,7 +14,7 @@ pipeline{
         }
         stage('Run tests'){
             steps{
-                bat 'npx cpress run'
+                bat 'npx cypress run'
             }
         }
         stage('Archive Report'){
