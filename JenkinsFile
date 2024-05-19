@@ -28,6 +28,7 @@ pipeline{
                 emailext subject: 'Test Results',
                         body: 'Test results are attached.',
                         attachmentsPattern: 'cypress/reports/html/*.html',
+                        mimeType: 'text/html',
                         to: 'sarveshy193@gmail.com'
             
             cleanWs()
