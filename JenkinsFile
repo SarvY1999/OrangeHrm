@@ -22,13 +22,19 @@ pipeline{
                 }
             }
         }
+        stage('Zip Reports') {
+            steps {
+                // Zip the reports directory
+                bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
+            }
+        }
     }
     post{
         always{
                 emailext subject: 'Test Results',
                         body: 'Test results are attached.',
-                        attachmentsPattern: 'cypress/reports/html/*.html',
-                        mimeType: 'text/html',
+                        attachmentsPattern: 'cypress/reports/html-reports.zip',
+                        mimeType: 'application/zip',
                         to: 'sarveshy193@gmail.com'
             
             cleanWs()
