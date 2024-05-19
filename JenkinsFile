@@ -18,14 +18,8 @@ pipeline{
             }
             post{
                 always{
-                    archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'cypress/reports/html/*.html', allowEmptyArchive: true
                 }
-            }
-        }
-        stage('Debug Reports Directory') {
-            steps {
-                // List the contents of the reports directory for debugging purposes
-                bat 'dir reports'
             }
         }
     }
@@ -33,7 +27,7 @@ pipeline{
         always{
                 emailext subject: 'Test Results',
                         body: 'Test results are attached.',
-                        attachmentsPattern: 'reports/*.html',
+                        attachmentsPattern: 'cypress/reports/html/*.html',
                         to: 'sarveshy193@gmail.com'
             
             cleanWs()
