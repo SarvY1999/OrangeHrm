@@ -26,7 +26,6 @@ pipeline{
                         mimeType: 'text/html',
                         to: 'sarveshy193@gmail.com'
             
-            cleanWs()
         }
     }
 }
