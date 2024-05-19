@@ -17,13 +17,18 @@ pipeline{
                 bat 'npx cypress run'
             }
         }
-        stage('Zip Reports') {
-            steps {
-                // Zip the reports directory and ensure the zip file has the .zipped extension
+        stage('zip report'){
+          always{
+            steps{
+                script{
+                     // Zip the reports directory and ensure the zip file has the .zipped extension
                 bat 'powershell Compress-Archive -Path cypress\\reports\\html\\* -DestinationPath cypress\\reports\\html-reports.zip'
                 // Rename the file to .zipped to avoid Gmail blocking
                 bat 'powershell Rename-Item -Path cypress\\reports\\html-reports.zip -NewName html-reports.zipped'
+                }
             }
+        }
+            
         }
     }
     post{
