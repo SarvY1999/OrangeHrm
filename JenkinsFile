@@ -29,7 +29,9 @@ pipeline {
                         keepAll: true,
                         reportDir: 'cypress/reports/html',
                         reportFiles: 'index.html',
-                        reportName: 'Cypress Test Report'
+                        reportName: 'Cypress Test Report',
+                        includes: '**/*',
+                        allowscripts: true
                     ])
                     
                     // // Zip the reports directory and ensure the zip file has the .zipped extension
