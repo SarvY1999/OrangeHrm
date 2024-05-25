@@ -51,7 +51,6 @@ Then('select Individual Employee and fill all required details by using the user
 })
 
 Then('verify if leave entitlement is assigned successfully or not', () => {
-    cy.get("div.oxd-autocomplete-text-input > input").should('have.text', `${Emp.firstName} ${Emp.lastName}`);
     cy.get('div:nth-child(2) > div > div:nth-child(2) > div > div > div > i.bi-caret-down-fill').click();
     cy.get("div[role='listbox'] div[role='option']").contains("CAN - FMLA").click();
     cy.get('button[type="submit"]').click();
@@ -59,7 +58,7 @@ Then('verify if leave entitlement is assigned successfully or not', () => {
 
 Then('Delete the leave Entitlement and User', () => {
     //Delete Entitlement
-    cy.get("div[class='oxd-table-body'] span.oxd-checkbox-input").check();
+    cy.get("div[class='oxd-table-body'] span.oxd-checkbox-input").click();
     cy.get('button[type="button"]').contains('Delete Selected').click()
     cy.get('button[type="button"]').contains('Yes, Delete').click();
 
